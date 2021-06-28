@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', showModal)
     })
     modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.getAttribute('[data-close]') == "") {
+        if (e.target === modal || e.target.getAttribute('data-close') == "") {
             hideModal()
         }
     })
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //отправка данных на сервер
     const forms = document.querySelectorAll('form')
     const message = {
-        loading: 'Идет Загрузка',
+        loading: 'img/form/spinner (1).svg',
         success: 'Ваше Сообщение Отправлено',
         failure: 'Произошла Ошибка'
     }
@@ -192,10 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function postData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault()
-            const statusMessage = document.createElement('div')
-            statusMessage.classList.add('status')
-            statusMessage.textContent = message.loading
-            form.append(statusMessage)
+            const statusMessage = document.createElement('img')
+            statusMessage.src = message.loading
+            statusMessage.cssText = `
+            display: block;
+            margin: 0 auto;
+            `
+            form.insertAdjacentElement('afterend', statusMessage)
             const request = new XMLHttpRequest()
             request.open('POST', 'server.php')
             request.setRequestHeader('Content-type', 'application/json')
