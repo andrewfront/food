@@ -235,4 +235,43 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(' http://localhost:3000/menu')
     .then(data => data.json())
     .then(res => console.log(res))
+    //slider
+    const prevBtn = document.querySelector('.offer__slider-prev')
+    const nextBtn = document.querySelector('.offer__slider-next')
+    const currentNum = document.querySelector('#current')
+    const totalNum = document.querySelector('#total')
+    const slides = document.querySelectorAll('.offer__slide')
+    let slideIndex = 1
+    showSlides(slideIndex)
+    if (slides.length < 10) {
+        totalNum.textContent = `0${slides.length}`
+    } else {
+        totalNum.textContent = slides.length
+    }
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        slides.forEach(item => {
+            item.style.display = 'none'
+        })
+        slides[slideIndex - 1].style.display = 'block'
+        if (slides.length < 10) {
+            currentNum.textContent = `0${slideIndex}`
+        } else {
+            currentNum.textContent = slideIndex
+        }
+    }
+    function plusSlide(n) {
+        showSlides(slideIndex += n)
+    }
+    prevBtn.addEventListener('click', function() {
+        plusSlide(-1)
+    })
+    nextBtn.addEventListener('click', function() {
+        plusSlide(1)
+    })
 })
