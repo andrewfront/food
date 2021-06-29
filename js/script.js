@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden'
         clearInterval(timerId)
     }
+
     function hideModal() {
         modal.classList.add('hide')
         modal.classList.remove('show')
@@ -241,4 +242,11 @@ document.addEventListener('DOMContentLoaded', () => {
             hideModal()
         }, 4000)
     }
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({name: 'Alex'}),
+        headers: {'Content-type': 'application/json'}
+    })
+        .then(response => response.json())
+        .then(json => console.log(json))
 })
