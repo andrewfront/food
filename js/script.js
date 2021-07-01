@@ -1,3 +1,4 @@
+import 'nodelist-foreach-polyfill';
 import tabs from './modules/tabs'
 import cards from './modules/cards'
 import modal from './modules/modal'
