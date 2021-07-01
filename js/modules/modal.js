@@ -1,40 +1,47 @@
-function modal() {
-        const modalTrigger = document.querySelectorAll('[data-modal]')
-        const modal = document.querySelector('.modal')
+function showModal(modalSelector, modalTimerId) {
+    const modal = document.querySelector(modalSelector)
+    modal.classList.add('show')
+    modal.classList.remove('hide')
+    document.body.style.overflow = 'hidden'
+    if (modalTimerId) {
+        clearInterval(modalTimerId)
+    }
+}
 
-        function showModal() {
-            modal.classList.add('show')
-            modal.classList.remove('hide')
-            document.body.style.overflow = 'hidden'
-            clearInterval(timerId)
-        }
+function hideModal(modalSelector) {
+    const modal = document.querySelector(modalSelector)
+    modal.classList.add('hide')
+    modal.classList.remove('show')
+    document.body.style.overflow = ''
+}
+function modal(triggerSelector, modalSelector, modalTimerId) {
+        const modalTrigger = document.querySelectorAll(triggerSelector)
+        const modal = document.querySelector(modalSelector)
 
-        function hideModal() {
-            modal.classList.add('hide')
-            modal.classList.remove('show')
-            document.body.style.overflow = ''
-        }
+
         modalTrigger.forEach(btn => {
-            btn.addEventListener('click', showModal)
+            btn.addEventListener('click', () => showModal(modalSelector, modalTimerId))
         })
         modal.addEventListener('click', (e) => {
             if (e.target === modal || e.target.getAttribute('data-close') == "") {
-                hideModal()
+                hideModal(modalSelector)
             }
         })
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Escape' && modal.classList.contains('show')) {
-                hideModal()
+                hideModal(modalSelector)
             }
         })
-        const timerId = setInterval(showModal, 50000)
+
 
         function showScroll() {
             if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-                showModal()
+                showModal(modalSelector, modalTimerId)
                 window.removeEventListener('scroll', showScroll)
             }
         }
         window.addEventListener('scroll', showScroll)
 }
-module.exports = modal
+export default modal
+export {showModal}
+export {hideModal}

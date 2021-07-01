@@ -1,5 +1,7 @@
-function server() {
-    const forms = document.querySelectorAll('form')
+import {showModal, hideModal} from './modal'
+import {postData} from '../services/services'
+function server(formSelector, modalTimerId) {
+    const forms = document.querySelectorAll(formSelector)
     const message = {
         loading: 'img/form/spinner (1).svg',
         success: 'Ваше Сообщение Отправлено',
@@ -8,17 +10,6 @@ function server() {
     forms.forEach(item => {
         bindPostData(item)
     })
-    const postData = async (url, data) => {
-        const result = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        })
-        return await result.json()
-    }
-
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -47,7 +38,7 @@ function server() {
     function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog')
         prevModalDialog.classList.add('hide')
-        showModal()
+        showModal('.modal', modalTimerId)
         const thanksModal = document.createElement('div')
         thanksModal.classList.add('modal__dialog')
         thanksModal.innerHTML = `
@@ -61,11 +52,11 @@ function server() {
             thanksModal.remove()
             prevModalDialog.classList.add('show')
             prevModalDialog.classList.remove('hide')
-            hideModal()
+            hideModal('.modal')
         }, 4000)
     }
     fetch(' http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res))
 }
-module.exports = server
+export default server
